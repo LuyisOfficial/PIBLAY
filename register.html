@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription - PIBLAY</title>
+
+<link rel="stylesheet" href="css/register.css">
+<link rel="icon" href="images/favicon.ico">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Créer un compte PIBLAY</h1>
+
+<select id="accountType">
+    <option value="client">Propriétaire d'activité</option>
+    <option value="agency">Agence publicitaire</option>
+</select>
+
+<div id="statusMsg"></div>
+
+<!-- ================= CLIENT ================= -->
+<form id="clientForm">
+
+<h3>Profil</h3>
+
+<input class="input" type="file" class="preview img" id="clientAvatar" accept="image/*">
+<input class="input" type="file" class="preview img" id="clientBanner" accept="image/*">
+    
+<input type="text" id="clientName" placeholder="Nom complet" required>
+<input type="email" id="clientEmail" placeholder="Email" required>
+<input type="password" id="clientPassword" placeholder="Mot de passe" required>
+
+
+<h3>Entreprise</h3>
+
+<input type="text" id="businessName" placeholder="Nom entreprise" required>
+
+<select id="businessType">
+    <option value="ecommerce">E-commerce</option>
+    <option value="service">Service</option>
+    <option value="restaurant">Restaurant</option>
+</select>
+
+<input type="url" id="website" placeholder="Site web">
+<textarea id="goal" placeholder="Objectif marketing..." required></textarea>
+
+<button class="btn-submit" type="submit">Créer compte client</button>
+
+</form>
+
+<!-- ================= AGENCE ================= -->
+<form id="agencyForm" style="display:none;">
+
+<h3>Profil agence</h3>
+
+<input type="file" class="input" class="preview img" id="agencyAvatar" accept="image/*">
+<input type="file" class="input" class="preview img" id="agencyBanner" accept="image/*">
+
+<input type="text" id="agencyName" placeholder="Nom agence" required>
+<input type="email" id="agencyEmail" placeholder="Email" required>
+<input type="password" id="agencyPassword" placeholder="Mot de passe" required>
+
+
+<input type="text" id="agencyPhone" placeholder="Téléphone">
+
+<select id="specialization">
+    <option value="meta">Meta Ads</option>
+    <option value="google">Google Ads</option>
+</select>
+
+<textarea id="agencyDescription" placeholder="Description agence"></textarea>
+
+<button class="btn-submit" type="submit">Créer compte agence</button>
+
+</form>
+
+</div>
+
+<script>
+
+// ================= SWITCH FORM =================
+const typeSelect = document.getElementById("accountType");
+const clientForm = document.getElementById("clientForm");
+const agencyForm = document.getElementById("agencyForm");
+const statusMsg = document.getElementById("statusMsg");
+
+typeSelect.addEventListener("change", () => {
+    const isClient = typeSelect.value === "client";
+    clientForm.style.display = isClient ? "block" : "none";
+    agencyForm.style.display = isClient ? "none" : "block";
+});
+
+// ================= CONVERT IMAGE =================
+function toBase64(file){
+    return new Promise((resolve, reject)=>{
+        if(!file) return resolve(null);
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = ()=>resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+// ================= SAVE USER =================
+function saveUserLocal(user){
+    localStorage.setItem("piblay_user", JSON.stringify(user));
+
+    let users = JSON.parse(localStorage.getItem("all_piblay_users")) || [];
+    users.push(user);
+    localStorage.setItem("all_piblay_users", JSON.stringify(users));
+}
+
+// ================= CLIENT REGISTER =================
+clientForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+
+    statusMsg.innerText = "Création...";
+    statusMsg.style.color = "orange";
+
+    try{
+
+        const avatar = await toBase64(document.getElementById("clientAvatar").files[0]);
+        const banner = await toBase64(document.getElementById("clientBanner").files[0]);
+
+        const user = {
+            fullname: document.getElementById("clientName").value,
+            email: document.getElementById("clientEmail").value,
+            password: document.getElementById("clientPassword").value,
+            role: "client",
+            isPaid: false,
+
+            avatar: avatar,
+            banner: banner,
+
+            business: {
+                name: document.getElementById("businessName").value,
+                type: document.getElementById("businessType").value,
+                website: document.getElementById("website").value,
+                goal: document.getElementById("goal").value
+            }
+        };
+
+        // Backend (optionnel)
+        await fetch("http://localhost:3000/register",{
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify(user)
+        });
+
+        saveUserLocal(user);
+
+        statusMsg.style.color = "green";
+        statusMsg.innerText = "Compte créé ✔";
+
+        setTimeout(()=>{
+            window.location.href = "client-dashboard.html";
+        },1500);
+
+    }catch(err){
+        statusMsg.style.color = "red";
+        statusMsg.innerText = "Erreur inscription";
+        console.error(err);
+    }
+});
+
+// ================= AGENCY REGISTER =================
+agencyForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+
+    statusMsg.innerText = "Création...";
+    statusMsg.style.color = "orange";
+
+    try{
+
+        const avatar = await toBase64(document.getElementById("agencyAvatar").files[0]);
+        const banner = await toBase64(document.getElementById("agencyBanner").files[0]);
+
+        const user = {
+            fullname: document.getElementById("agencyName").value,
+            email: document.getElementById("agencyEmail").value,
+            password: document.getElementById("agencyPassword").value,
+            role: "agency",
+            isPaid: false,
+
+            avatar: avatar,
+            banner: banner,
+
+            agency: {
+                phone: document.getElementById("agencyPhone").value,
+                specialization: document.getElementById("specialization").value,
+                description: document.getElementById("agencyDescription").value
+            }
+        };
+
+        await fetch("http://localhost:3000/register",{
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify(user)
+        });
+
+        saveUserLocal(user);
+
+        statusMsg.style.color = "green";
+        statusMsg.innerText = "Compte agence créé ✔";
+
+        setTimeout(()=>{
+            window.location.href = "agency-dashboard.html";
+        },1500);
+
+    }catch(err){
+        statusMsg.style.color = "red";
+        statusMsg.innerText = "Erreur inscription";
+        console.error(err);
+    }
+});
+
+</script>
+
+</body>
+</html>

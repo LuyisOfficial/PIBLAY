@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement réussi - PIBLAY</title>
+
+<link rel="stylesheet" href="css/register.css">
+<link rel="icon" href="images/favicon.png" type="image/png">
+
+<style>
+.container {
+    text-align: center;
+    padding: 50px 30px;
+}
+
+.success-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.main-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+}
+
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="success-icon">🎉</div>
+
+<h2>Paiement réussi</h2>
+<p>Votre compte est maintenant activé</p>
+
+<div class="info-box">
+    Vérification en cours... merci de patienter ⏳
+</div>
+
+<button class="main-btn" id="goBtn" onclick="goDashboard()" disabled>
+    Accéder au dashboard
+</button>
+
+</div>
+
+<script>
+
+// 🔐 récupérer token + rôle depuis stockage
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+
+// Vérification paiement côté backend (IMPORTANT)
+async function verifyPayment(){
+
+    try{
+        const res = await fetch("http://localhost:3000/verify-payment",{
+            method:"GET",
+            headers:{
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const data = await res.json();
+
+        if(data.success){
+            document.querySelector(".info-box").innerText = "Paiement confirmé ✔";
+            document.getElementById("goBtn").disabled = false;
+        }else{
+            document.querySelector(".info-box").innerText = "Erreur paiement ❌";
+        }
+
+    }catch{
+        document.querySelector(".info-box").innerText = "Erreur serveur ❌";
+    }
+}
+
+// 🎯 redirection intelligente
+function goDashboard(){
+
+    if(role === "agency"){
+        window.location.href = "agency-dashboard.html";
+    }else{
+        window.location.href = "client-dashboard.html";
+    }
+}
+
+// lancer vérification auto
+verifyPayment();
+
+</script>
+
+</body>
+</html>

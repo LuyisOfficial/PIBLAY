@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= SEO PIBLAY ULTRA ================= -->
+
+<title>PIBLAY - Plateforme Publicitaire Intelligente | Trouvez Agences & Clients</title>
+
+<meta name="description" content="Piblay est une plateforme publicitaire intelligente qui connecte entreprises et agences marketing. Lancez vos campagnes, trouvez des clients et augmentez vos revenus rapidement.">
+
+<meta name="keywords" content="
+publicité en ligne,
+marketing digital,
+agence publicitaire,
+trouver clients,
+plateforme marketing,
+facebook ads,
+google ads,
+tiktok ads,
+publicité digitale,
+piblay
+">
+
+<meta name="author" content="PIBLAY">
+
+<!-- GOOGLE INDEX -->
+<meta name="robots" content="index, follow">
+
+<!-- MOBILE -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- OPEN GRAPH (Facebook / WhatsApp) -->
+<meta property="og:title" content="PIBLAY - Plateforme Publicitaire Intelligente">
+<meta property="og:description" content="Connectez agences et entreprises. Lancez vos campagnes publicitaires avec intelligence.">
+<meta property="og:image" content="images/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.piblay.com">
+
+<!-- TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PIBLAY - Plateforme Publicitaire">
+<meta name="twitter:description" content="Trouvez clients ou agences en quelques clics.">
+<meta name="twitter:image" content="images/logo.png">
+
+<!-- FAVICON -->
+<link rel="icon" href="images/favicon.ico">
+
+<!-- PERFORMANCE -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a192f">
+
+<!-- IOS SUPPORT -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="images/logo.png">
+
+<style>
+:root{
+    --orange:#ec6111;
+    --dark:#0a192f;
+    --text:#e6f1ff;
+}
+
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background: radial-gradient(circle,#0a192f,#000);
+    color:var(--text);
+}
+
+/* NAV */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+}
+
+header img{ width:120px; background:white; padding:5px; border-radius:14px; }
+
+nav a{
+    margin-left:20px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+}
+
+.btn-login{
+    background:var(--orange);
+    padding:10px 18px;
+    border-radius:8px;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:100px 20px;
+}
+
+.hero h1{
+    font-size:2.8rem;
+    color:var(--orange);
+}
+
+.hero p{
+    max-width:600px;
+    margin:20px auto;
+    color:#8892b0;
+}
+
+.hero button{
+    padding:16px 30px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#ffd700,#ffcc00);
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:1rem;
+}
+
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:50px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.card ion-icon{
+    font-size:40px;
+    color:var(--orange);
+}
+
+/* CTA */
+.cta{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.cta button{
+    padding:18px 40px;
+    background:var(--orange);
+    border:none;
+    border-radius:10px;
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+}
+
+/* CHAT */
+.chat-floating{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--orange);
+    padding:15px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.chat-menu{
+    position:fixed;
+    bottom:80px;
+    right:20px;
+    background:rgb(179, 127, 31);
+    color:black;
+    width:250px;
+    border-radius:10px;
+    display:none;
+}
+
+.chat-menu.active{ display:block; }
+
+.chat-option{
+    display:flex;
+    gap:10px;
+    padding:10px;
+    text-decoration:none;
+    color:black;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+    .hero h1{ font-size:2rem; }
+}
+</style>
+
+</head>
+
+<body>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "PIBLAY",
+  "url": "https://www.piblay.com",
+  "logo": "https://www.piblay.com/images/logo.png",
+  "description": "Plateforme publicitaire intelligente connectant agences et entreprises.",
+  "sameAs": [
+    "https://www.facebook.com/1piblay",
+    "https://www.instagram.com/piblay"
+  ]
+}
+</script> 
+
+<header>
+    <img src="images/logo.png">
+
+    <nav>
+        <a href="register.html">Commencer</a>
+        <a href="login.html" class="btn-login">Connexion</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>La Publicité Nouvelle Génération</h1>
+    <p>
+        PIBLAY connecte les entreprises avec les meilleures agences publicitaires
+        pour créer des campagnes performantes et intelligentes.
+    </p>
+
+    <button onclick="goRegister()">🚀 Commencer maintenant</button>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <ion-icon name="rocket-outline"></ion-icon>
+        <h3>Campagnes intelligentes</h3>
+        <p>Optimisation automatique pour maximiser vos résultats.</p>
+    </div>
+
+    <div class="card">
+        <ion-icon name="people-outline"></ion-icon>
+        <h3>Connexion agences</h3>
+        <p>Trouvez les meilleures agences adaptées à votre business.</p>
+    </div>
+
+    <div class="card">
+        <ion-icon name="analytics-outline"></ion-icon>
+        <h3>Analytics en temps réel</h3>
+        <p>Suivez vos performances en direct.</p>
+    </div>
+
+    <div class="card">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <h3>Sécurité avancée</h3>
+        <p>Protection des données et comptes utilisateurs.</p>
+    </div>
+
+</section>
+
+<section class="cta">
+    <h2>Prêt à booster votre business ?</h2>
+    <button onclick="goRegister()">Créer un compte</button>
+</section>
+
+<!-- CHAT -->
+<div class="chat-menu" id="chatMenu">
+    <div class="chat-menu-header">Centre d'aide Piblay 👋</div>
+
+    <a href="https://chat.whatsapp.com/LrCq7YCvhDC6yTLXGeAAxY" target="_blank" class="chat-option">
+        <ion-icon name="people-outline"></ion-icon>
+        <div>
+            <strong>GROUPS PIBLAY</strong>
+        </div>
+    </a>
+
+    <a href="https://wa.me/50940894038?text=Bonjour Admin je besoins d'aide " target="_blank" class="chat-option">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+        <div>
+            <strong>CONTACT DIRECT</strong>
+        </div>
+    </a>
+
+    <a href="mailto:info.piblay@gmail.com" class="chat-option">
+        <ion-icon name="mail-outline"></ion-icon>
+        <div>
+            <strong>EMAIL SUPPORT</strong>
+        </div>
+    </a>
+
+    <a href="support.html" class="chat-option">
+        <ion-icon name="help-circle-outline"></ion-icon>
+        <div>
+            <strong>PAGE D'AIDE</strong>
+        </div>
+    </a>
+</div>
+
+<div class="chat-floating" id="chatBtn">
+    <ion-icon name="chatbubbles-outline">AIDE ?</ion-icon>
+</div>
+
+ 
+<script>
+function goRegister(){
+    window.location.href = "register.html";
+}
+
+document.getElementById("chatBtn").addEventListener("click", ()=>{
+    document.getElementById("chatMenu").classList.toggle("active");
+});
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js")
+        .then(() => console.log("✅ PWA installable"))
+        .catch(err => console.log("❌ SW error:", err));
+    });
+}
+</script>
+</body>
+</html>

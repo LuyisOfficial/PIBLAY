@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activation Agence - PIBLAY</title>
+
+<link rel="stylesheet" href="css/plan-a.css">
+<link rel="icon" href="images/favicon.png" type="image/png">
+
+<style>
+.container {
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+    padding: 50px 30px;
+}
+
+.price-box {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.price-box h3 {
+    font-size: 2rem;
+    color: #ffd700;
+}
+
+.info {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+#paypal-button-container {
+    margin-top: 30px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Activation Agence</h2>
+
+<div class="price-box">
+    <p>Abonnement mensuel</p>
+    <h3>10$ / mois</h3>
+</div>
+
+<p class="info">
+Active ton compte agence pour accéder à la plateforme PIBLAY 🚀
+</p>
+
+<div id="paypal-button-container"></div>
+
+</div>
+
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AZOGWj2PpwXjsung8boLnKMrjD_wCOjU6d6Wo8m7ZEoU33ycX96BFe2MFXrt1f3Rqws753Z8hBRLjJcP"></script>
+
+<script>
+
+const role = "agency";
+
+// 💳 bouton PayPal
+paypal.Buttons({
+
+    createOrder: function(data, actions) {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: "10.00"
+                }
+            }]
+        });
+    },
+
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+
+            // 🔐 envoyer au backend
+            fetch("http://localhost:3000/verify-payment", {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    role: role,
+                    plan: "agency_activation",
+                    payer: details.payer.email_address
+                })
+            });
+
+            // 🎯 redirection
+            window.location.href = "success.html";
+        });
+    },
+
+    onError: function(err){
+        alert("Erreur paiement ❌");
+        console.error(err);
+    }
+
+}).render('#paypal-button-container');
+
+</script>
+
+</body>
+</html>

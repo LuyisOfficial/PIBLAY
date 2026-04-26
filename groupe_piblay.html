@@ -6,9 +6,9 @@
     <title>Groupe PIBLAY | Communauté</title>
 
     <!-- chemins corrigés -->
-    <link rel="icon" href="./images/favicon.ico">
+    <link rel="icon" href="./favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/groupe.css">
+    <link rel="stylesheet" href="./groupe.css">
 
     <style>
         .group-profile {
@@ -65,7 +65,7 @@
     <h2>Communauté PIBLAY</h2>
 
     <div class="user-profile">
-        <img id="userAvatar" src="./images/favicon.ico">
+        <img id="userAvatar" src="./favicon.ico">
         <span id="userName"></span>
     </div>
 </nav>
@@ -73,7 +73,7 @@
 <main class="group-container">
 
     <div class="group-profile">
-        <img src="./images/multiagence.png" alt="Groupe PIBLAY">
+        <img src="./multiagence.png" alt="Groupe PIBLAY">
         <div class="group-info">
             <h3>Groupe PIBLAY</h3>
             <p>Communauté officielle des agences & entrepreneurs 🚀</p>
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 fullname: "Utilisateur Demo",
                 role: "client",
                 isPaid: true,
-                avatar: "./images/favicon.ico"
+                avatar: "./favicon.ico"
             };
             localStorage.setItem("piblay_user", JSON.stringify(user));
         }
@@ -136,8 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // 🔐 Vérification paiement
         if (user.role !== 'admin' && user.isPaid !== true) {
             const redirect = user.role === 'agency'
-                ? "./tarifs_agence.html"
-                : "./tarifs_client.html";
+                ? "./plan_agence.html"
+                : "./plan.html";
 
             window.location.href = redirect;
             return;
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
             user.fullname || "Utilisateur";
 
         document.getElementById("userAvatar").src =
-            user.avatar || "./images/favicon.ico";
+            user.avatar || "./favicon.ico";
 
     } catch (err) {
         console.error("Erreur user:", err);
@@ -163,13 +163,13 @@ function goBack() {
     if (window.history.length > 1) {
         window.history.back();
     } else {
-        window.location.href = "./dashboard.html";
+        window.location.href = "./client-dashboard.html" typs="client" : window.location.href = "./agency-dashboard.html" typs="client";
     }
 }
 </script>
 
 <!-- JS corrigé -->
-<script src="./js/groupe.js"></script>
+<script src="./groupe.js"></script>
 
 </body>
 </html>

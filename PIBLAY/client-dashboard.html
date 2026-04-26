@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Client - PIBLAY</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body {
+    display: flex;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0a192f;
+    color: #e6f1ff;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #020617;
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar h3 {
+    color: #ec6111;
+}
+
+.sidebar a, .sidebar button {
+    display: block;
+    margin: 15px 0;
+    color: #94a3b8;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.main-btn {
+    padding: 12px;
+    background: linear-gradient(135deg,#ffd700,#ffcc00);
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3>PIBLAY</h3>
+
+    <a href="#">📊 Analytics</a>
+    <a href="#">💳 Plan</a>
+    <a href="#">❓ Aide</a>
+
+    <button onclick="logout()">🚪 Déconnexion</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="card">
+        <h2>Profil Client</h2>
+        <p id="status">Chargement...</p>
+    </div>
+
+    <div class="card">
+        <h3>Analytics en temps réel</h3>
+        <p id="clicks">Clics: 0</p>
+        <p id="impressions">Impressions: 0</p>
+    </div>
+
+</div>
+
+<!-- Socket.io -->
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+<script>
+
+// 🔐 récupération sécurisée
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+
+if(!token){
+    window.location.href = "login.html";
+}
+
+// ================= PROFIL =================
+async function loadProfile(){
+    try{
+        const res = await fetch("http://localhost:3000/profile",{
+            headers:{
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const data = await res.json();
+
+        if(!data.active){
+            alert("Compte non activé !");
+            window.location.href = "plans.html";
+        }
+
+        document.getElementById("status").innerText =
+            "Compte actif ✔";
+
+    }catch{
+        document.getElementById("status").innerText =
+            "Erreur chargement profil";
+    }
+}
+
+loadProfile();
+
+// ================= SOCKET =================
+const socket = io("http://localhost:3000",{
+    auth:{ token }
+});
+
+socket.on("connect", ()=>{
+    console.log("Connecté au serveur temps réel");
+});
+
+socket.on("live-data", (data) => {
+    document.getElementById("clicks").innerText =
+        "Clics: " + data.clicks;
+
+    document.getElementById("impressions").innerText =
+        "Impressions: " + data.impressions;
+});
+
+// ================= TRACK IMPRESSION =================
+setInterval(()=>{
+    fetch("http://localhost:3000/track/impression",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer " + token
+        },
+        body: JSON.stringify({ campaign_id:1 })
+    });
+},5000);
+
+// ================= LOGOUT =================
+function logout(){
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>

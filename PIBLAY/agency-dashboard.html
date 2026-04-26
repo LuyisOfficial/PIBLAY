@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Agence - PIBLAY</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body {
+    display: flex;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0a192f;
+    color: #e6f1ff;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #020617;
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar h3 {
+    color: #ec6111;
+}
+
+.sidebar a, .sidebar button {
+    display: block;
+    margin: 15px 0;
+    color: #94a3b8;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+/* CARDS */
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* INPUT */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+/* BUTTON */
+.main-btn {
+    padding: 12px;
+    background: linear-gradient(135deg,#ffd700,#ffcc00);
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* LIST */
+.list-item {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3>PIBLAY AGENCE</h3>
+
+    <a href="#">📢 Campagnes</a>
+    <a href="#">👥 Clients</a>
+    <a href="#">📊 Analytics</a>
+
+    <button onclick="logout()">🚪 Déconnexion</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- CREATE CAMPAIGN -->
+    <div class="card">
+        <h2>Créer campagne</h2>
+
+        <input id="campaignName" placeholder="Nom campagne">
+        <input id="clientId" placeholder="ID client">
+        <input id="budget" placeholder="Budget ($)">
+        
+        <select id="platform">
+            <option value="facebook">Facebook Ads</option>
+            <option value="google">Google Ads</option>
+            <option value="tiktok">TikTok Ads</option>
+        </select>
+
+        <button class="main-btn" onclick="createCampaign()">Créer campagne</button>
+    </div>
+
+    <!-- CAMPAIGNS LIST -->
+    <div class="card">
+        <h3>Mes campagnes</h3>
+        <div id="campaignList"></div>
+    </div>
+
+    <!-- CLIENTS -->
+    <div class="card">
+        <h3>Mes clients</h3>
+        <div id="clientList"></div>
+    </div>
+
+</div>
+
+<script>
+
+const token = localStorage.getItem("token");
+
+if(!token){
+    window.location.href = "login.html";
+}
+
+// ================= CREATE CAMPAIGN =================
+async function createCampaign(){
+
+    const name = document.getElementById("campaignName").value;
+    const clientId = document.getElementById("clientId").value;
+    const budget = document.getElementById("budget").value;
+    const platform = document.getElementById("platform").value;
+
+    if(!name || !clientId || !budget){
+        alert("Remplis tous les champs");
+        return;
+    }
+
+    try{
+        const res = await fetch("http://localhost:3000/campaign/create", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer " + token
+            },
+            body: JSON.stringify({
+                name,
+                client_id: clientId,
+                budget,
+                platform
+            })
+        });
+
+        const data = await res.json();
+
+        alert("Campagne créée ✔");
+        loadCampaigns();
+
+    }catch{
+        alert("Erreur création ❌");
+    }
+}
+
+// ================= LOAD CAMPAIGNS =================
+async function loadCampaigns(){
+
+    const res = await fetch("http://localhost:3000/campaigns",{
+        headers:{
+            "Authorization":"Bearer " + token
+        }
+    });
+
+    const campaigns = await res.json();
+
+    const list = document.getElementById("campaignList");
+    list.innerHTML = "";
+
+    campaigns.forEach(c=>{
+        list.innerHTML += `
+        <div class="list-item">
+            <b>${c.name}</b> - ${c.platform} - $${c.budget}
+        </div>`;
+    });
+}
+
+// ================= LOAD CLIENTS =================
+async function loadClients(){
+
+    const res = await fetch("http://localhost:3000/clients",{
+        headers:{
+            "Authorization":"Bearer " + token
+        }
+    });
+
+    const clients = await res.json();
+
+    const list = document.getElementById("clientList");
+    list.innerHTML = "";
+
+    clients.forEach(c=>{
+        list.innerHTML += `
+        <div class="list-item">
+            ${c.name} (${c.email})
+        </div>`;
+    });
+}
+
+// ================= LOGOUT =================
+function logout(){
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+
+// LOAD DATA
+loadCampaigns();
+loadClients();
+
+</script>
+
+</body>
+</html>

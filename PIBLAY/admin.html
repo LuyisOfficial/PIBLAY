@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIBLAY Admin</title>
+
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<nav class="admin-sidebar" id="adminSidebar">
+
+    <div class="admin-profile">
+        <img src="images/profiladmin.png" class="admin-avatar">
+        <p id="admin-email">Admin</p>
+        <span class="badge-online">Super Admin</span>
+    </div>
+
+    <div class="admin-nav">
+        <div class="nav-item active" data-tab="overview">📊 Dashboard</div>
+        <div class="nav-item" data-tab="users">👥 Utilisateurs</div>
+        <div class="nav-item" data-tab="campaigns">📢 Campagnes</div>
+        <div class="nav-item" data-tab="security">🔐 Sécurité</div>
+        <div class="nav-item" data-tab="settings">⚙️ Paramètres</div>
+
+        <div class="nav-item logout" onclick="logout()">🚪 Déconnexion</div>
+    </div>
+
+</nav>
+
+<!-- MAIN -->
+<main class="admin-container">
+
+<header class="top-bar">
+    <h2>PIBLAY <span style="color:#ec6111;">ADMIN</span></h2>
+</header>
+
+<!-- ================= OVERVIEW ================= -->
+<section id="overview" class="tab active">
+    <div class="stats-grid">
+        <div class="card"><h3 id="totalUsers">0</h3><p>Utilisateurs</p></div>
+        <div class="card"><h3 id="totalCampaigns">0</h3><p>Campagnes</p></div>
+        <div class="card"><h3 id="alerts">0</h3><p>Alertes Sécurité</p></div>
+    </div>
+</section>
+
+<!-- ================= USERS ================= -->
+<section id="users" class="tab">
+    <h2>Gestion utilisateurs</h2>
+    <div id="usersList"></div>
+</section>
+
+<!-- ================= CAMPAIGNS ================= -->
+<section id="campaigns" class="tab">
+    <h2>Campagnes</h2>
+    <div id="campaignList"></div>
+</section>
+
+<!-- ================= SECURITY ================= -->
+<section id="security" class="tab">
+    <h2>Logs sécurité</h2>
+    <div id="logsList"></div>
+</section>
+
+<!-- ================= SETTINGS ================= -->
+<section id="settings" class="tab">
+    <h2>Paramètres</h2>
+
+    <div class="card">
+        <label>Mode maintenance</label>
+        <button onclick="toggleMaintenance()">ON / OFF</button>
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+// ================= SECURITE ADMIN =================
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user || user.role !== "admin"){
+    alert("Accès refusé");
+    window.location.href = "login.html";
+}
+
+// ================= NAVIGATION =================
+document.querySelectorAll(".nav-item").forEach(item=>{
+    item.addEventListener("click", ()=>{
+
+        document.querySelectorAll(".nav-item").forEach(i=>i.classList.remove("active"));
+        item.classList.add("active");
+
+        const tab = item.dataset.tab;
+
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        document.getElementById(tab).classList.add("active");
+
+    });
+});
+
+// ================= LOAD DATA =================
+async function loadAdmin(){
+
+    const res = await fetch("http://localhost:3000/admin/security");
+    const data = await res.json();
+
+    // STATS
+    document.getElementById("totalUsers").innerText = data.users.length;
+    document.getElementById("alerts").innerText = data.stats.alerts;
+
+    // USERS
+    const usersList = document.getElementById("usersList");
+    usersList.innerHTML = "";
+
+    data.users.forEach(u=>{
+        usersList.innerHTML += `
+            <div class="card">
+                <p>${u.email}</p>
+                <p>Role: ${u.role}</p>
+                <button onclick="blockUser('${u.email}')">
+                    ${u.blocked ? "Débloquer" : "Bloquer"}
+                </button>
+            </div>
+        `;
+    });
+
+    // LOGS
+    const logsList = document.getElementById("logsList");
+    logsList.innerHTML = "";
+
+    data.logs.slice(-20).reverse().forEach(l=>{
+        logsList.innerHTML += `
+            <div class="card">
+                <p>${l.type} | ${l.email}</p>
+                <small>${new Date(l.date).toLocaleString()}</small>
+            </div>
+        `;
+    });
+}
+
+loadAdmin();
+
+// ================= BLOCK USER =================
+async function blockUser(email){
+
+    await fetch("http://localhost:3000/admin/block",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ email })
+    });
+
+    loadAdmin();
+}
+
+// ================= LOGOUT =================
+function logout(){
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+
+// ================= MAINTENANCE =================
+function toggleMaintenance(){
+    alert("Mode maintenance (à connecter backend)");
+}
+
+</script>
+
+</body>
+</html>

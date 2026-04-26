@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset OTP - PIBLAY</title>
+
+<link rel="stylesheet" href="./css/register.css">
+
+<style>
+.step { display:none; }
+.step.active { display:block; }
+
+#msg{
+    text-align:center;
+    margin-bottom:10px;
+    font-size:0.9rem;
+}
+
+.success{ color:#34d399; }
+.error{ color:#f87171; }
+
+.otp-input{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin:20px 0;
+}
+
+.otp-input input{
+    width:45px;
+    height:55px;
+    text-align:center;
+    font-size:20px;
+    border-radius:8px;
+    border:1px solid #ec6111;
+    background:#112240;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Réinitialisation sécurisée</h2>
+
+<div id="msg"></div>
+
+<div class="step active" id="step1">
+    <input type="email" id="email" placeholder="Votre email" required>
+    <button class="main-btn" onclick="sendOTP()">Recevoir code</button>
+</div>
+
+<div class="step" id="step2">
+    <p style="text-align:center;">Entrez le code reçu</p>
+
+    <div class="otp-input">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+        <input maxlength="1">
+    </div>
+
+    <button class="main-btn" onclick="verifyOTP()">Vérifier</button>
+</div>
+
+<div class="step" id="step3">
+    <input type="password" id="newPass" placeholder="Nouveau mot de passe">
+    <button class="main-btn" onclick="resetPass()">Changer mot de passe</button>
+</div>
+
+</div>
+
+<script>
+
+let emailGlobal = "";
+let generatedOTP = "";
+
+// SWITCH STEP
+function goStep(n){
+    document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+    document.getElementById("step"+n).classList.add("active");
+}
+
+const msg = document.getElementById("msg");
+
+// ================= SEND OTP (SIMULATION) =================
+function sendOTP(){
+
+    const email = document.getElementById("email").value;
+
+    if(!email.includes("@")){
+        msg.className="error";
+        msg.innerText="Email invalide";
+        return;
+    }
+
+    emailGlobal = email;
+
+    // 🔥 génère OTP fake
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    console.log("OTP DEMO:", generatedOTP);
+
+    msg.className="success";
+    msg.innerText="✔ Code envoyé (voir console F12)";
+
+    goStep(2);
+}
+
+// ================= VERIFY OTP =================
+function verifyOTP(){
+
+    const inputs = document.querySelectorAll(".otp-input input");
+    let code = "";
+
+    inputs.forEach(i => code += i.value);
+
+    if(code === generatedOTP){
+        msg.className="success";
+        msg.innerText="✔ Code validé";
+
+        goStep(3);
+    }else{
+        msg.className="error";
+        msg.innerText="Code incorrect";
+    }
+}
+
+// ================= RESET PASSWORD =================
+function resetPass(){
+
+    const password = document.getElementById("newPass").value;
+
+    if(password.length < 6){
+        msg.className="error";
+        msg.innerText="Mot de passe trop court";
+        return;
+    }
+
+    // 💾 stockage local (simulation)
+    localStorage.setItem("demo_password_"+emailGlobal, password);
+
+    msg.className="success";
+    msg.innerText="✔ Mot de passe changé";
+
+    setTimeout(()=>{
+        window.location.href = "./login.html";
+    },1500);
+}
+
+// UX OTP auto focus
+document.querySelectorAll(".otp-input input").forEach((input, index, inputs)=>{
+    input.addEventListener("input", ()=>{
+        if(input.value && inputs[index+1]){
+            inputs[index+1].focus();
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>

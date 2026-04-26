@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agences PIBLAY</title>
+
+<!-- chemins corrigés -->
+<link rel="stylesheet" href="./css/agence.css">
+<link rel="icon" href="./images/favicon.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+#lock-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.lock-card {
+    background: #0a192f;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+}
+.agency-card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 12px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- 🔒 LOCK -->
+<div id="lock-overlay">
+    <div class="lock-card">
+        <i class="fas fa-lock"></i>
+        <h2>Accès premium</h2>
+        <p>Vous devez activer un plan pour voir les agences</p>
+        <a href="./plans.html">Voir les plans</a>
+    </div>
+</div>
+
+<div class="container">
+
+<header>
+    <h1>Agences Certifiées PIBLAY</h1>
+</header>
+
+<div class="agencies-grid" id="agenciesGrid"></div>
+
+</div>
+
+<script>
+
+// ================= USER DEMO =================
+let user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+    // simulation utilisateur
+    user = {
+        email: "client@test.com",
+        role: "client",
+        planActive: true
+    };
+    localStorage.setItem("user", JSON.stringify(user));
+}
+
+// ================= CHECK ROLE =================
+if(user.role !== "client"){
+    alert("Accès réservé aux clients");
+    window.location.href = "./login.html";
+}
+
+// ================= CHECK PLAN =================
+if(!user.planActive){
+    document.getElementById("lock-overlay").style.display = "flex";
+}
+
+// ================= DATA DEMO =================
+const agencies = [
+    {
+        id: "1",
+        name: "Agence Marketing Pro",
+        description: "Experts en publicité digitale",
+        specialization: "Facebook Ads",
+        rating: 4.9,
+        active: true
+    },
+    {
+        id: "2",
+        name: "Growth Agency",
+        description: "Croissance rapide des business",
+        specialization: "SEO / Google Ads",
+        rating: 5.0,
+        active: true
+    },
+    {
+        id: "3",
+        name: "Agence inactive",
+        active: false
+    }
+];
+
+// ================= LOAD AGENCIES =================
+function loadAgencies(){
+
+    const container = document.getElementById("agenciesGrid");
+    container.innerHTML = "";
+
+    const activeAgencies = agencies.filter(a => a.active === true);
+
+    activeAgencies.forEach(a=>{
+        container.innerHTML += `
+        <div class="agency-card">
+            <h3>${a.name}</h3>
+            <p>${a.description || "Agence professionnelle"}</p>
+            <p>Spécialité: ${a.specialization}</p>
+            <p>⭐ ${a.rating}</p>
+
+            <button onclick="chooseAgency('${a.id}')">
+                Choisir cette agence
+            </button>
+        </div>
+        `;
+    });
+}
+
+loadAgencies();
+
+// ================= CHOISIR AGENCE =================
+function chooseAgency(id){
+
+    user.agency = id;
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Agence sélectionnée ✔");
+    window.location.href = "./client-dashboard.html";
+}
+
+</script>
+
+<!-- JS externe -->
+<script src="./js/agence.js"></script>
+
+</body>
+</html>

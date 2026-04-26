@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Sécurisé | PIBLAY</title>
+
+<link rel="icon" href="images/favicon.ico">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="css/support.css">
+
+<style>
+#clientSupport, #agencySupport {
+    display: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="support-header">
+    <div id="badgeContainer"></div>
+    <h1 class="main-title">Centre d'Assistance PIBLAY</h1>
+    <p id="supportUser" class="user-welcome">Chargement...</p>
+</header>
+
+<div class="container">
+
+<!-- CLIENT -->
+<main id="clientSupport" class="support-content">
+    <section class="support-card client-border">
+        <h2 class="client-text"><i class="fas fa-user-tie"></i> Aide Propriétaire</h2>
+
+        <div class="video-help-grid">
+            <div class="video-box">🎥 Lancer campagne</div>
+            <div class="video-box">📊 Voir résultats</div>
+        </div>
+    </section>
+
+    <section class="support-card ticket-area">
+        <h3>Support Client</h3>
+
+        <form id="clientTicketForm">
+            <select id="clientSubject">
+                <option>Paiement</option>
+                <option>Campagne</option>
+                <option>Agence</option>
+            </select>
+
+            <textarea id="clientMsg" placeholder="Explique ton problème"></textarea>
+
+            <button class="btn-submit">Envoyer</button>
+        </form>
+    </section>
+</main>
+
+<!-- AGENCY -->
+<main id="agencySupport" class="support-content">
+    <section class="support-card agency-border">
+        <h2 class="agency-text"><i class="fas fa-building"></i> Support Agence</h2>
+
+        <div class="video-help-grid">
+            <div class="video-box">👥 Gérer clients</div>
+            <div class="video-box">💰 Retirer argent</div>
+        </div>
+    </section>
+
+    <section class="support-card ticket-area">
+        <h3>Support Technique</h3>
+
+        <form id="agencyTicketForm">
+            <select id="agencySubject">
+                <option>Bug API</option>
+                <option>Retrait</option>
+                <option>Partenariat</option>
+            </select>
+
+            <textarea id="agencyMsg" placeholder="Décris ton problème"></textarea>
+
+            <button class="btn-submit btn-agency">Envoyer</button>
+        </form>
+    </section>
+</main>
+
+</div>
+
+<script>
+
+// ================= AUTH =================
+const user = JSON.parse(localStorage.getItem("piblay_user"));
+const welcome = document.getElementById("supportUser");
+
+if(!user){
+    alert("Connexion requise");
+    window.location.href = "login.html";
+}
+
+// ================= USER INFO =================
+welcome.innerText = "Bienvenue " + (user.fullname || user.email);
+
+document.getElementById("badgeContainer").innerHTML =
+    `<span class="badge">${user.role.toUpperCase()}</span>`;
+
+// ================= ROLE =================
+if(user.role === "client"){
+    document.getElementById("clientSupport").style.display = "block";
+}
+else if(user.role === "agency"){
+    document.getElementById("agencySupport").style.display = "block";
+}
+else{
+    alert("Rôle inconnu");
+    window.location.href = "login.html";
+}
+
+// ================= SAVE TICKET =================
+function saveTicket(ticket){
+    let tickets = JSON.parse(localStorage.getItem("piblay_tickets")) || [];
+    tickets.push(ticket);
+    localStorage.setItem("piblay_tickets", JSON.stringify(tickets));
+}
+
+// ================= CLIENT =================
+document.getElementById("clientTicketForm")?.addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    const ticket = {
+        type: "client",
+        email: user.email,
+        subject: clientSubject.value,
+        message: clientMsg.value,
+        date: new Date().toISOString()
+    };
+
+    saveTicket(ticket);
+
+    alert("Ticket envoyé ✔");
+    clientMsg.value = "";
+});
+
+// ================= AGENCY =================
+document.getElementById("agencyTicketForm")?.addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    const ticket = {
+        type: "agency",
+        email: user.email,
+        subject: agencySubject.value,
+        message: agencyMsg.value,
+        date: new Date().toISOString()
+    };
+
+    saveTicket(ticket);
+
+    alert("Ticket envoyé ✔");
+    agencyMsg.value = "";
+});
+
+</script>
+
+</body>
+</html>

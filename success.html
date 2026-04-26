@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement réussi - PIBLAY</title>
+
+<link rel="stylesheet" href="css/register.css">
+<link rel="icon" href="images/favicon.png" type="image/png">
+
+<style>
+.container {
+    text-align: center;
+    padding: 50px 30px;
+}
+
+.success-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.main-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.main-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="success-icon">🎉</div>
+
+<h2>Paiement réussi</h2>
+<p>Votre compte est maintenant activé</p>
+
+<div class="info-box" id="statusBox">
+    Vérification en cours... ⏳
+</div>
+
+<button class="main-btn" id="goBtn" onclick="goDashboard()" disabled>
+    Accéder au dashboard
+</button>
+
+</div>
+
+<script>
+
+// 🔐 récupérer rôle
+const role = localStorage.getItem("role") || "client";
+
+// 🔥 SIMULATION paiement (GitHub friendly)
+function verifyPayment(){
+
+    setTimeout(()=>{
+
+        // on active le compte localement
+        let user = JSON.parse(localStorage.getItem("piblay_user")) || {};
+        user.isPaid = true;
+        localStorage.setItem("piblay_user", JSON.stringify(user));
+
+        document.getElementById("statusBox").innerText = "Paiement confirmé ✔";
+        document.getElementById("goBtn").disabled = false;
+
+    }, 1500); // simulation délai
+
+}
+
+// 🎯 redirection
+function goDashboard(){
+
+    if(role === "agency"){
+        window.location.href = "agency-dashboard.html";
+    }else{
+        window.location.href = "client-dashboard.html";
+    }
+
+}
+
+// lancer vérification
+verifyPayment();
+
+</script>
+
+</body>
+</html>

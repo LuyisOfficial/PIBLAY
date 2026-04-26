@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupe PIBLAY | Communauté</title>
+
+    <!-- chemins corrigés -->
+    <link rel="icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/groupe.css">
+
+    <style>
+        .group-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .group-profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ec6111;
+        }
+
+        .group-info h3 {
+            margin: 0;
+            color: #ec6111;
+        }
+
+        .group-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .user-profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="group-nav">
+    <button onclick="goBack()" class="btn-secondary">
+        <i class="fas fa-arrow-left"></i> Retour
+    </button>
+
+    <h2>Communauté PIBLAY</h2>
+
+    <div class="user-profile">
+        <img id="userAvatar" src="./images/favicon.ico">
+        <span id="userName"></span>
+    </div>
+</nav>
+
+<main class="group-container">
+
+    <div class="group-profile">
+        <img src="./images/multiagence.png" alt="Groupe PIBLAY">
+        <div class="group-info">
+            <h3>Groupe PIBLAY</h3>
+            <p>Communauté officielle des agences & entrepreneurs 🚀</p>
+        </div>
+    </div>
+
+    <div class="group-header">
+        <h3>Membres du Groupe</h3>
+        <p>Seuls les membres actifs apparaissent ici.</p>
+    </div>
+
+    <div class="members-list" id="members-list"></div>
+
+    <div class="chat-wrapper">
+
+        <div class="chat-window">
+
+            <div class="chat-header">
+                <h3><i class="fas fa-comments"></i> Chat Communautaire</h3>
+                <span id="online-count">En direct</span>
+            </div>
+
+            <div class="chat-messages" id="chat-messages"></div>
+
+            <form class="chat-input-area" id="chat-form">
+                <input type="text" id="chat-input" placeholder="Écrivez votre message..." required autocomplete="off">
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+
+        </div>
+
+        <div class="members-sidebar">
+            <h4>Membres Actifs</h4>
+            <div id="members-list-sidebar"></div>
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    try {
+        let user = JSON.parse(localStorage.getItem('piblay_user'));
+
+        // ✅ MODE DEMO si pas connecté
+        if (!user) {
+            user = {
+                fullname: "Utilisateur Demo",
+                role: "client",
+                isPaid: true,
+                avatar: "./images/favicon.ico"
+            };
+            localStorage.setItem("piblay_user", JSON.stringify(user));
+        }
+
+        // 🔐 Vérification paiement
+        if (user.role !== 'admin' && user.isPaid !== true) {
+            const redirect = user.role === 'agency'
+                ? "./tarifs_agence.html"
+                : "./tarifs_client.html";
+
+            window.location.href = redirect;
+            return;
+        }
+
+        // 👤 Profil
+        document.getElementById("userName").innerText =
+            user.fullname || "Utilisateur";
+
+        document.getElementById("userAvatar").src =
+            user.avatar || "./images/favicon.ico";
+
+    } catch (err) {
+        console.error("Erreur user:", err);
+        localStorage.clear();
+        window.location.href = "./login.html";
+    }
+
+});
+
+// 🔙 RETOUR
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "./dashboard.html";
+    }
+}
+</script>
+
+<!-- JS corrigé -->
+<script src="./js/groupe.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIBLAY Admin Sécurité</title>
+
+<!-- CSS corrigé -->
+<link rel="stylesheet" href="./css/style.css">
+
+<!-- Favicon corrigé -->
+<link rel="icon" type="image/png" href="./images/favicon.png">
+
+<style>
+body {
+    background:#0a192f;
+    color:white;
+    font-family:Arial;
+}
+
+.container {
+    padding:30px;
+}
+
+h2 {
+    color:#ffd700;
+}
+
+.card {
+    background:#112240;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td {
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    text-align:left;
+}
+
+th {
+    color:#ffd700;
+}
+
+.danger { color:#f87171; }
+.success { color:#34d399; }
+
+button {
+    padding:8px 12px;
+    background:#ec6111;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🔐 Dashboard Sécurité PIBLAY</h2>
+
+<!-- STATS -->
+<div class="card">
+    <h3>Statistiques</h3>
+    <p>Connexions aujourd'hui : <span id="logins">0</span></p>
+    <p>OTP envoyés : <span id="otp">0</span></p>
+    <p>Tentatives suspectes : <span id="alerts" class="danger">0</span></p>
+</div>
+
+<!-- USERS -->
+<div class="card">
+    <h3>Utilisateurs actifs</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>IP</th>
+                <th>Statut</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+    </table>
+</div>
+
+<!-- LOGS -->
+<div class="card">
+    <h3>Logs Sécurité</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Email</th>
+                <th>IP</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="logsTable"></tbody>
+    </table>
+</div>
+
+</div>
+
+<script>
+
+// ⚠️ MODE DEMO (car GitHub Pages ne supporte pas backend)
+function loadSecurity(){
+
+    const data = {
+        stats: {
+            logins: 24,
+            otp: 12,
+            alerts: 3
+        },
+        users: [
+            { email: "user1@mail.com", ip: "192.168.1.1", blocked: false },
+            { email: "hacker@mail.com", ip: "10.0.0.5", blocked: true }
+        ],
+        logs: [
+            { type: "LOGIN", email: "user1@mail.com", ip: "192.168.1.1", date: Date.now() },
+            { type: "FAILED", email: "hacker@mail.com", ip: "10.0.0.5", date: Date.now() }
+        ]
+    };
+
+    document.getElementById("logins").innerText = data.stats.logins;
+    document.getElementById("otp").innerText = data.stats.otp;
+    document.getElementById("alerts").innerText = data.stats.alerts;
+
+    const usersTable = document.getElementById("usersTable");
+    usersTable.innerHTML = "";
+
+    data.users.forEach(u => {
+        usersTable.innerHTML += `
+            <tr>
+                <td>${u.email}</td>
+                <td>${u.ip}</td>
+                <td>${u.blocked ? "Bloqué" : "Actif"}</td>
+                <td>
+                    <button onclick="blockUser('${u.email}')">
+                        ${u.blocked ? "Débloquer" : "Bloquer"}
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+
+    const logsTable = document.getElementById("logsTable");
+    logsTable.innerHTML = "";
+
+    data.logs.forEach(l => {
+        logsTable.innerHTML += `
+            <tr>
+                <td>${l.type}</td>
+                <td>${l.email}</td>
+                <td>${l.ip}</td>
+                <td>${new Date(l.date).toLocaleString()}</td>
+            </tr>
+        `;
+    });
+}
+
+// SIMULATION
+function blockUser(email){
+    alert("Action simulée pour : " + email);
+}
+
+loadSecurity();
+
+</script>
+
+</body>
+</html>

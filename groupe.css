@@ -1,0 +1,68 @@
+:root {
+    --gold: #FFD700;
+    --green: #10b981;
+    --blue: #3b82f6;
+    --bg: #020617;
+    --card: #0f172a;
+}
+
+body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; margin: 0; }
+.group-nav { padding: 20px; background: var(--card); display: flex; align-items: center; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.back-btn { color: white; text-decoration: none; font-size: 0.9rem; }
+
+.group-container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+.members-list { display: flex; flex-direction: column; gap: 15px; }
+
+.member-card {
+    background: var(--card); padding: 15px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.member-info { display: flex; align-items: center; gap: 15px; }
+.member-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #333; }
+
+/* Styles des Badges */
+.badge { padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+.badge-admin { background: rgba(255, 215, 0, 0.2); color: var(--gold); border: 1px solid var(--gold); }
+.badge-agency { background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid var(--green); }
+.badge-owner { background: rgba(59, 130, 246, 0.2); color: var(--blue); border: 1px solid var(--blue); }
+
+.admin-controls { display: flex; gap: 10px; }
+.btn-kick { background: none; border: 1px solid #ef4444; color: #ef4444; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
+
+/* ... (Garder les styles précédents) ... */
+
+.chat-wrapper { display: grid; grid-template-columns: 1fr 300px; gap: 20px; margin-top: 20px; }
+
+.chat-window { 
+    background: var(--card); border-radius: 15px; 
+    display: flex; flex-direction: column; height: 600px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.chat-header { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; }
+
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+
+/* Bulles de message */
+.msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; position: relative; }
+.msg-info { font-size: 0.75rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+
+.msg-text { font-size: 0.95rem; line-height: 1.4; }
+
+/* Styles par rôle */
+.msg.admin { align-self: flex-start; background: rgba(255, 215, 0, 0.1); border-left: 3px solid var(--gold); }
+.msg.agency { align-self: flex-start; background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--green); }
+.msg.owner { align-self: flex-start; background: rgba(59, 130, 246, 0.1); border-left: 3px solid var(--blue); }
+.msg.me { align-self: flex-end; background: #334155; border-left: none; border-right: 3px solid var(--gold); }
+
+/* Zone d'écriture */
+.chat-input-area { padding: 15px; display: flex; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+.chat-input-area input { flex: 1; background: var(--bg); border: none; padding: 12px; border-radius: 8px; color: white; }
+.chat-input-area button { background: var(--gold); color: black; border: none; width: 45px; border-radius: 8px; cursor: pointer; }
+
+@media (max-width: 768px) {
+    .chat-wrapper { grid-template-columns: 1fr; }
+    .members-sidebar { display: none; }
+}

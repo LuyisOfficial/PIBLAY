@@ -1,0 +1,246 @@
+/* ================= ROOT PIBLAY ================= */
+:root {
+    --piblay-orange: #ec6111;
+    --piblay-bg: #0a192f;
+    --piblay-card: rgba(255,255,255,0.05);
+    --piblay-border: rgba(236, 97, 17, 0.2);
+    --piblay-text: #f1f5f9;
+    --gold: #ffd700;
+}
+
+/* ================= RESET ================= */
+* {
+    box-sizing: border-box;
+}
+
+/* ================= BASE ================= */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+
+    background: radial-gradient(circle at top, #0a192f 0%, #000 100%);
+    color: var(--piblay-text);
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+    width: 100%;
+    max-width: 700px;
+
+    background: var(--piblay-card);
+    backdrop-filter: blur(20px);
+
+    border: 1px solid var(--piblay-border);
+    border-radius: 24px;
+
+    padding: 40px 30px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+}
+
+/* ================= TITLE ================= */
+.container h1 {
+    text-align: center;
+    color: var(--piblay-orange);
+    margin-bottom: 25px;
+    font-size: 1.7rem;
+}
+
+/* ================= SELECT TYPE ================= */
+#accountType {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 25px;
+
+    border-radius: 12px;
+    border: 1px solid var(--piblay-border);
+
+    background: rgba(255,255,255,0.06);
+    color: rgb(167, 164, 9);
+
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ================= FORM ================= */
+form {
+    margin-top: 10px;
+}
+
+/* ================= SECTION ================= */
+form h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+
+    font-size: 0.9rem;
+    color: var(--piblay-orange);
+
+    border-left: 3px solid var(--piblay-orange);
+    padding-left: 10px;
+}
+
+/* ================= INPUT ================= */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+
+    border-radius: 10px;
+    color: rgb(165, 162, 3);
+
+    font-size: 0.9rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+textarea {
+    min-height: 100px;
+    resize: none;
+}
+
+/* FOCUS */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--piblay-orange);
+    box-shadow: 0 0 12px rgba(236,97,17,0.25);
+}
+
+/* ================= FILE INPUT (IMAGE) ================= */
+input[type="file"] {
+    padding: 10px;
+    background: rgba(255,255,255,0.03);
+    cursor: pointer;
+}
+
+/* ================= IMAGE PREVIEW ================= */
+.preview {
+    width: 100%;
+    height: 140px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+
+    background: rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ================= GRID (AGENCY FORM) ================= */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* ================= BUTTON ================= */
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    color: #000;
+
+    border: none;
+    border-radius: 14px;
+
+    font-weight: bold;
+    font-size: 1rem;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(255,215,0,0.4);
+}
+
+/* ================= STATUS ================= */
+#statusMsg {
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ================= LINKS ================= */
+form p {
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+form a {
+    color: var(--piblay-orange);
+    text-decoration: none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* TABLET */
+@media (max-width: 768px) {
+
+    .container {
+        padding: 30px 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 25px 15px;
+        border-radius: 16px;
+    }
+
+    input,
+    select,
+    textarea {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .btn-submit {
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+}
+
+/* PETIT MOBILE */
+@media (max-width: 350px) {
+
+    .container h1 {
+        font-size: 1.3rem;
+    }
+
+}

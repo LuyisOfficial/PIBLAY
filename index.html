@@ -1,38 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PIBLAY - Plateforme Publicitaire Intelligente</title>
+  <title>PIBLAY - Plateforme Publicitaire Intelligente</title>
 
-<meta name="description" content="Piblay connecte entreprises et agences marketing pour des campagnes performantes.">
+  <meta name="description" content="Piblay connecte entreprises et agences marketing pour des campagnes performantes.">
 
-<!-- SEO -->
-<meta name="robots" content="index, follow">
+  <!-- SEO -->
+  <meta name="robots" content="index, follow">
 
-<!-- Open Graph -->
-<meta property="og:title" content="PIBLAY">
-<meta property="og:description" content="Plateforme publicitaire intelligente">
-<meta property="og:image" content="./logo.png">
-<meta property="og:type" content="website">
+  <!-- Open Graph -->
+  <meta property="og:title" content="PIBLAY">
+  <meta property="og:description" content="Plateforme publicitaire intelligente">
+  <meta property="og:image" content="./logo.png">
+  <meta property="og:type" content="website">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="./logo.png">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="./logo.png">
 
-<!-- Favicon -->
-<link rel="icon" href="./favicon.ico">
+  <!-- Favicon -->
+  <link rel="icon" href="./favicon.ico">
 
-<!-- PWA -->
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#0a192f">
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0a192f">
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<!-- Ionicons (IMPORTANT manquant) -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="header">
+    <nav class="navbar">
+      
+      <!-- LOGO -->
+      <div class="logo">
+        <img src="./logo.png" alt="PIBLAY Logo">
+        <span>PIBLAY</span>
+      </div>
+
+      <!-- MENU -->
+      <ul class="nav-links">
+        <li><a href="#features">Fonctionnalités</a></li>
+        <li><a href="./plan">Tarifs</a></li>
+        <li><a href="./register" class="btn-primary">Créer un compte</a></li>
+      </ul>
+
+      <!-- MOBILE ICON -->
+      <div class="menu-toggle">
+        <ion-icon name="menu-outline"></ion-icon>
+      </div>
+
+    </nav>
+  </header>
 
 <style>
 :root{

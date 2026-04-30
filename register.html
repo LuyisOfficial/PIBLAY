@@ -80,58 +80,85 @@
 </div>
 
 <script>
+// ================= CONFIG =================
+const API_URL = "http://localhost:3000/api";
 
-// SWITCH FORM
+// ================= UI =================
 const typeSelect = document.getElementById("accountType");
 const clientForm = document.getElementById("clientForm");
 const agencyForm = document.getElementById("agencyForm");
 const statusMsg = document.getElementById("statusMsg");
 
+// SWITCH FORM
 typeSelect.addEventListener("change", () => {
     const isClient = typeSelect.value === "client";
     clientForm.style.display = isClient ? "block" : "none";
     agencyForm.style.display = isClient ? "none" : "block";
 });
 
-// IMAGE → BASE64
-function toBase64(file){
-    return new Promise((resolve, reject)=>{
-        if(!file) return resolve(null);
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = ()=>resolve(reader.result);
-        reader.onerror = reject;
+// ================= HELPERS =================
+
+// VALIDATION EMAIL
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// VALIDATION PASSWORD (SaaS sécurisé)
+function validatePassword(password) {
+    return password.length >= 8;
+}
+
+// FILE UPLOAD (SÉCURISÉ)
+function getFile(file) {
+    if (!file) return null;
+    if (file.size > 2 * 1024 * 1024) {
+        throw new Error("Image trop lourde (max 2MB)");
+    }
+    return file;
+}
+
+// ================= API CALL =================
+async function registerUser(data) {
+    const response = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        credentials: "include", // cookies sécurisé
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
     });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result.message || "Erreur serveur");
+    }
+
+    return result;
 }
 
-// SAVE LOCAL (OK pour GitHub)
-function saveUserLocal(user){
-    localStorage.setItem("piblay_user", JSON.stringify(user));
-
-    let users = JSON.parse(localStorage.getItem("all_piblay_users")) || [];
-    users.push(user);
-    localStorage.setItem("all_piblay_users", JSON.stringify(users));
-}
-
-// CLIENT REGISTER
-clientForm.addEventListener("submit", async (e)=>{
+// ================= CLIENT REGISTER =================
+clientForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    statusMsg.innerText = "Création...";
-    statusMsg.style.color = "orange";
+    try {
+        statusMsg.innerText = "Création...";
+        statusMsg.style.color = "orange";
 
-    try{
-        const avatar = await toBase64(clientAvatar.files[0]);
-        const banner = await toBase64(clientBanner.files[0]);
+        // VALIDATION
+        if (!validateEmail(clientEmail.value)) {
+            throw new Error("Email invalide");
+        }
 
-        const user = {
-            fullname: clientName.value,
-            email: clientEmail.value,
+        if (!validatePassword(clientPassword.value)) {
+            throw new Error("Mot de passe trop court (8 caractères minimum)");
+        }
+
+        const userData = {
+            fullname: clientName.value.trim(),
+            email: clientEmail.value.trim(),
             password: clientPassword.value,
             role: "client",
-            isPaid: false,
-            avatar,
-            banner,
             business: {
                 name: businessName.value,
                 type: businessType.value,
@@ -140,40 +167,42 @@ clientForm.addEventListener("submit", async (e)=>{
             }
         };
 
-        saveUserLocal(user);
+        await registerUser(userData);
 
         statusMsg.style.color = "green";
         statusMsg.innerText = "Compte créé ✔";
 
-        setTimeout(()=>{
+        setTimeout(() => {
             window.location.href = "client-dashboard.html";
-        },1500);
+        }, 1200);
 
-    }catch(err){
+    } catch (err) {
         statusMsg.style.color = "red";
-        statusMsg.innerText = "Erreur inscription";
+        statusMsg.innerText = err.message;
     }
 });
 
-// AGENCY REGISTER
-agencyForm.addEventListener("submit", async (e)=>{
+// ================= AGENCY REGISTER =================
+agencyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    statusMsg.innerText = "Création...";
-    statusMsg.style.color = "orange";
+    try {
+        statusMsg.innerText = "Création...";
+        statusMsg.style.color = "orange";
 
-    try{
-        const avatar = await toBase64(agencyAvatar.files[0]);
-        const banner = await toBase64(agencyBanner.files[0]);
+        if (!validateEmail(agencyEmail.value)) {
+            throw new Error("Email invalide");
+        }
 
-        const user = {
-            fullname: agencyName.value,
-            email: agencyEmail.value,
+        if (!validatePassword(agencyPassword.value)) {
+            throw new Error("Mot de passe trop court");
+        }
+
+        const userData = {
+            fullname: agencyName.value.trim(),
+            email: agencyEmail.value.trim(),
             password: agencyPassword.value,
             role: "agency",
-            isPaid: false,
-            avatar,
-            banner,
             agency: {
                 phone: agencyPhone.value,
                 specialization: specialization.value,
@@ -181,21 +210,21 @@ agencyForm.addEventListener("submit", async (e)=>{
             }
         };
 
-        saveUserLocal(user);
+        await registerUser(userData);
 
         statusMsg.style.color = "green";
         statusMsg.innerText = "Compte agence créé ✔";
 
-        setTimeout(()=>{
+        setTimeout(() => {
             window.location.href = "agency-dashboard.html";
-        },1500);
+        }, 1200);
 
-    }catch(err){
+    } catch (err) {
         statusMsg.style.color = "red";
-        statusMsg.innerText = "Erreur inscription";
+        statusMsg.innerText = err.message;
     }
 });
-
+    
 </script>
 <script src="./enregister.js"></script>
 </body>

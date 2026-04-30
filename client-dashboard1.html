@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - PIBLAY</title>
+
+<link rel="stylesheet" href="./dashboard1.css">
+<script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <h2>PIBLAY</h2>
+
+    <nav>
+        <a href="#"><ion-icon name="home-outline"></ion-icon> Dashboard</a>
+        <a href="#"><ion-icon name="megaphone-outline"></ion-icon> Campagnes</a>
+        <a href="#"><ion-icon name="analytics-outline"></ion-icon> Analytics</a>
+        <a href="#"><ion-icon name="people-outline"></ion-icon> Agences</a>
+        <a href="#"><ion-icon name="settings-outline"></ion-icon> Paramètres</a>
+    </nav>
+
+    <button id="logoutBtn">Déconnexion</button>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- HEADER -->
+    <header class="topbar">
+        <h1>Dashboard</h1>
+        <div class="user">
+            <span id="userName">Utilisateur</span>
+        </div>
+    </header>
+
+    <!-- STATS -->
+    <section class="stats">
+
+        <div class="card">
+            <h3>Campagnes actives</h3>
+            <p id="campaignCount">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Budget total</h3>
+            <p id="budget">0$</p>
+        </div>
+
+        <div class="card">
+            <h3>Conversions</h3>
+            <p id="conversions">0</p>
+        </div>
+
+        <div class="card">
+            <h3>ROI</h3>
+            <p id="roi">0%</p>
+        </div>
+
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-section">
+        <h2>Mes campagnes</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Budget</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="campaignTable">
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+</div>
+
+<script src="./dashboard1.js"></script>
+</body>
+          </html>

@@ -1,347 +1,89 @@
-/* ==========================
-   PIBLAY OFFICIAL STYLE
-========================== */
-
-:root{
-    --bg-dark:#081423;
-    --bg-card:#10233d;
-    --primary:#00d4ff;
-    --primary-hover:#00a7cc;
-    --text:#ffffff;
-    --text-soft:#b8c5e0;
-    --border:rgba(0,212,255,.15);
-    --shadow:0 10px 30px rgba(0,0,0,.35);
+/* 1. Définition des couleurs globales */
+:root {
+    --primary-color: #ff7200; /* Orange Piblay */
+    --secondary-color: #000000; /* Noir */
+    --text-white: #ffffff; /* Blanc */
+    --bg-light: #f4f4f4;
 }
 
-/* RESET */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* 2. Navbar Sticky (Fixe au défilement) */
+header, .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--secondary-color) !important;
+    border-bottom: 2px solid var(--primary-color);
+    padding: 10px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
 }
 
-html{
-    scroll-behavior:smooth;
+/* Style des liens de navigation */
+.navbar a, .nav-link {
+    color: var(--text-white) !important;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(180deg,#081423,#0a192f);
-    color:var(--text);
-    overflow-x:hidden;
-    line-height:1.6;
+.navbar a:hover {
+    color: var(--primary-color) !important;
 }
 
-/* HEADER */
-.header{
-    position:sticky;
-    top:0;
-    width:100%;
-    z-index:999;
-    background:rgba(8,20,35,.95);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border);
+/* 3. Boutons et éléments d'action */
+btn-primary, .cta-button, button {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
-.navbar{
-    max-width:1200px;
-    margin:auto;
-    padding:14px 20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+/* 4. Adaptabilité (Responsive Design) */
 
-/* LOGO */
-.logo{
-   padding:30px;
-   border-raduis:20px;
-   font-size:18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.logo img{
-    width:42px;
-    height:42px;
-    object-fit:contain;
-}
-
-.logo span{
-    font-size:1.3rem;
-    font-weight:800;
-    color:var(--primary);
-    letter-spacing:1px;
-}
-
-/* NAV LINKS */
-.nav-links{
-    display:flex;
-    align-items:center;
-    gap:24px;
-    list-style:none;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:var(--text-soft);
-    font-weight:500;
-    transition:.3s;
-}
-
-.nav-links a:hover{
-    color:var(--primary);
-}
-
-/* BUTTON */
-.btn-primary{
-    background:var(--primary);
-    color:#081423 !important;
-    padding:11px 20px;
-    border-radius:8px;
-    font-weight:700;
-}
-
-.btn-primary:hover{
-    background:var(--primary-hover);
-}
-
-/* MOBILE MENU */
-.menu-toggle{
-    display:none;
-    font-size:30px;
-    color:var(--primary);
-    cursor:pointer;
-}
-
-/* HERO */
-.hero{
-    padding:80px 20px;
-    text-align:center;
-    max-width:1200px;
-    margin:auto;
-}
-
-.hero h1{
-    font-size:clamp(2rem,5vw,4rem);
-    margin-bottom:20px;
-    background:linear-gradient(to right,#fff,var(--primary));
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.hero img{
-    width:100%;
-    max-width:600px;
-    border-radius:16px;
-    margin:20px auto;
-    display:block;
-}
-
-.hero p{
-    max-width:700px;
-    margin:auto;
-    color:var(--text-soft);
-    font-size:1.1rem;
-}
-
-/* FEATURES */
-.features{
-    max-width:1200px;
-    margin:auto;
-    padding:60px 20px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:25px;
-}
-
-.card{
-    background:var(--bg-card);
-    padding:35px 20px;
-    border-radius:18px;
-    text-align:center;
-    border:1px solid var(--border);
-    transition:.3s;
-    box-shadow:var(--shadow);
-}
-
-.card:hover{
-    transform:translateY(-8px);
-    border-color:var(--primary);
-}
-
-.card ion-icon{
-    font-size:48px;
-    color:var(--primary);
-    margin-bottom:14px;
-}
-
-.card h3{
-    font-size:1.1rem;
-}
-
-/* CTA */
-.cta{
-    text-align:center;
-    padding:80px 20px;
-}
-
-.cta h2{
-    margin-bottom:25px;
-}
-
-.cta button{
-    background:var(--primary);
-    border:none;
-    color:#081423;
-    padding:15px 35px;
-    border-radius:40px;
-    font-size:1rem;
-    font-weight:700;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.cta button:hover{
-    transform:scale(1.05);
-}
-
-/* CHAT FLOATING */
-.chat-floating{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    background:var(--primary);
-    color:#081423;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:28px;
-    cursor:pointer;
-    z-index:1000;
-}
-
-.chat-menu{
-    position:fixed;
-    bottom:90px;
-    right:20px;
-    width:280px;
-    background:var(--bg-card);
-    border-radius:16px;
-    padding:15px;
-    display:none;
-    flex-direction:column;
-    gap:12px;
-    border:1px solid var(--border);
-}
-
-.chat-menu.active{
-    display:flex;
-}
-
-.chat-option{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:14px;
-    text-decoration:none;
-    color:var(--text);
-    border-radius:10px;
-    background:rgba(255,255,255,.04);
-}
-
-.chat-option:hover{
-    background:var(--primary);
-    color:#081423;
-}
-
-/* ==========================
-   TABLET
-========================== */
-@media(max-width:992px){
-    .logo img{
-        width:36px;
-        height:36px;
+/* Mobile (Smartphones) */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 15px;
     }
-
-    .logo span{
-        font-size:1.1rem;
+    
+    .nav-menu {
+        display: none; /* Cache le menu si vous utilisez un menu burger */
+    }
+    
+    h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    .container {
+        width: 95% !important;
+        margin: 0 auto;
     }
 }
 
-/* ==========================
-   MOBILE
-========================== */
-@media(max-width:768px){
-
-    .menu-toggle{
-        display:block;
-    }
-
-    .nav-links{
-        position:absolute;
-        top:72px;
-        left:0;
-        width:100%;
-        background:#10233d;
-        flex-direction:column;
-        padding:25px;
-        display:none;
-        border-top:1px solid var(--border);
-    }
-
-    .nav-links.active{
-        display:flex;
-    }
-
-    .hero{
-        padding:50px 15px;
-    }
-
-    .hero h1{
-        font-size:2rem;
-    }
-
-    .hero p{
-        font-size:1rem;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .cta button{
-        width:100%;
-        max-width:300px;
-    }
-
-    .chat-menu{
-        width:90%;
-        right:5%;
+/* Tablettes */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .navbar {
+        padding: 10px 2%;
     }
 }
 
-/* PETIT MOBILE */
-@media(max-width:480px){
+/* 5. Section Hero / Fond de page */
+body {
+    background-color: var(--text-white);
+    color: var(--secondary-color);
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
 
-    .logo img{
-        width:30px;
-        height:30px;
-    }
-
-    .logo span{
-        font-size:1rem;
-    }
-
-    .navbar{
-        padding:12px 15px;
-    }
-
-    .hero h1{
-        font-size:1.7rem;
-    }
-                    }
+footer {
+    background-color: var(--secondary-color);
+    color: var(--text-white);
+    padding: 40px 0;
+    text-align: center;
+    border-top: 3px solid var(--primary-color);
+       }

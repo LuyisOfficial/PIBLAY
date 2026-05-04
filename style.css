@@ -54,6 +54,9 @@ body{
 
 /* LOGO */
 .logo{
+   padding:30px;
+   border-raduis:20px;
+   font-size:18px;
     display:flex;
     align-items:center;
     gap:10px;

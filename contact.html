@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Contact | PIBLAY</title>
+
+  <link rel="stylesheet" href="contact.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <div class="logo">
+      <span>PIB</span>LAY
+    </div>
+
+    <nav class="navbar" id="navbar">
+      <a href="#">Accueil</a>
+      <a href="#">Fonctionnalités</a>
+      <a href="#">Tarifs</a>
+      <a href="#">Support</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <a href="#" class="btn-primary">Créer un compte</a>
+
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <span class="badge">
+        🛰️ Support & Assistance Professionnelle
+      </span>
+
+      <h1>
+        Contactez
+        <span>PIBLAY</span>
+      </h1>
+
+      <p>
+        Vous avez une question ou besoin d’accompagnement ?
+        Nos experts sont là pour vous aider à propulser vos campagnes
+        et maximiser vos revenus publicitaires.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">Parler à un expert</a>
+        <a href="#" class="btn-secondary">Live Chat</a>
+      </div>
+
+    </div>
+
+    <div class="hero-card">
+
+      <div class="contact-card">
+
+        <h3>Temps de Réponse</h3>
+
+        <div class="response-box">
+          <h2>&lt; 24h</h2>
+          <p>Réponse garantie</p>
+        </div>
+
+        <div class="support-stats">
+
+          <div class="support-item">
+            <h4>24/7</h4>
+            <p>Support Technique</p>
+          </div>
+
+          <div class="support-item">
+            <h4>99%</h4>
+            <p>Satisfaction</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CONTACT TYPES -->
+  <section class="contact-types">
+
+    <div class="section-title">
+      <span>CHOISISSEZ VOTRE PROFIL</span>
+      <h2>Un support adapté à votre besoin</h2>
+      <p>
+        Sélectionnez le département correspondant afin d’obtenir une assistance rapide et efficace.
+      </p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="contact-box">
+        <div class="icon">📢</div>
+
+        <h3>Support Annonceurs</h3>
+
+        <p>
+          Assistance pour campagnes, ciblage intelligent,
+          validation publicitaire et optimisation ROI.
+        </p>
+
+        <ul>
+          <li>Stratégie d'enchères</li>
+          <li>Pixels de conversion</li>
+          <li>Validation des créations</li>
+        </ul>
+
+        <a href="mailto:ads@piblay.com">
+          ads@piblay.com
+        </a>
+      </div>
+
+      <div class="contact-box">
+        <div class="icon">💰</div>
+
+        <h3>Support Éditeurs</h3>
+
+        <p>
+          Questions sur les revenus, intégration publicitaire,
+          statistiques et paiements.
+        </p>
+
+        <ul>
+          <li>Tags publicitaires</li>
+          <li>Fill Rate</li>
+          <li>Paiements</li>
+        </ul>
+
+        <a href="mailto:publishers@piblay.com">
+          publishers@piblay.com
+        </a>
+      </div>
+
+      <div class="contact-box">
+        <div class="icon">🛠️</div>
+
+        <h3>Assistance Technique</h3>
+
+        <p>
+          Support API, bugs techniques,
+          sécurité et intégrations développeur.
+        </p>
+
+        <ul>
+          <li>API REST</li>
+          <li>Problèmes techniques</li>
+          <li>Sécurité du compte</li>
+        </ul>
+
+        <a href="mailto:tech@piblay.com">
+          tech@piblay.com
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FORM -->
+  <section class="contact-form-section">
+
+    <div class="section-title">
+      <span>FORMULAIRE RAPIDE</span>
+      <h2>Envoyez votre demande</h2>
+      <p>
+        Réponse garantie sous 24h ouvrées.
+      </p>
+    </div>
+
+    <form class="contact-form" id="contactForm">
+
+      <div class="input-group">
+        <label>Nom Complet</label>
+        <input type="text" placeholder="Votre nom complet" required>
+      </div>
+
+      <div class="input-group">
+        <label>Adresse Email</label>
+        <input type="email" placeholder="contact@email.com" required>
+      </div>
+
+      <div class="input-group">
+        <label>Type de Compte</label>
+
+        <select required>
+          <option value="">Choisissez</option>
+          <option>Annonceur</option>
+          <option>Éditeur</option>
+          <option>Partenaire</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Sujet de la demande</label>
+
+        <select required>
+          <option value="">Choisissez</option>
+          <option>Support technique</option>
+          <option>Facturation</option>
+          <option>Partenariat</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+      <div class="input-group full-width">
+        <label>Message</label>
+
+        <textarea placeholder="Décrivez votre demande..." required></textarea>
+      </div>
+
+      <div class="input-group full-width">
+        <label>Pièce Jointe (optionnel)</label>
+
+        <input type="file">
+      </div>
+
+      <button type="submit" class="btn-primary submit-btn">
+        Envoyer la demande
+      </button>
+
+    </form>
+
+  </section>
+
+  <!-- LIVE SUPPORT -->
+  <section class="live-support">
+
+    <div class="section-title">
+      <span>COMMUNICATION</span>
+      <h2>Autres Canaux de Contact</h2>
+    </div>
+
+    <div class="support-grid">
+
+      <div class="support-card">
+        <div class="icon">💬</div>
+
+        <h3>Chat en Direct</h3>
+
+        <p>
+          Disponible du lundi au vendredi,
+          de 9h à 18h.
+        </p>
+
+        <button class="btn-primary">
+          Ouvrir le Chat
+        </button>
+      </div>
+
+      <div class="support-card">
+        <div class="icon">📱</div>
+
+        <h3>Réseaux Sociaux</h3>
+
+        <div class="social-links">
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter (X)</a>
+          <a href="#">Telegram</a>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+
+    <div class="section-title">
+      <span>FAQ RAPIDE</span>
+      <h2>Questions fréquentes</h2>
+    </div>
+
+    <div class="faq-container">
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Comment valider mon compte ?
+        </div>
+
+        <div class="faq-answer">
+          Vérifiez votre email après l’inscription
+          et complétez votre profil KYC.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Quel est le dépôt minimum ?
+        </div>
+
+        <div class="faq-answer">
+          Le dépôt minimum pour les annonceurs est de 50 €.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Quand sont envoyés les paiements ?
+        </div>
+
+        <div class="faq-answer">
+          Tous les 1er et 15 du mois (Net-15).
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- LOCATION -->
+  <section class="location">
+
+    <div class="location-card">
+
+      <div class="icon">📍</div>
+
+      <h2>Siège Social</h2>
+
+      <p>
+        Piblay International AdTech
+      </p>
+
+      <span>
+        123 Avenue de la Publicité,<br>
+        75008 Paris, France
+      </span>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+
+    <h2>
+      Besoin d'aide pour développer vos campagnes ?
+    </h2>
+
+    <p>
+      Notre équipe vous accompagne à chaque étape.
+    </p>
+
+    <div class="cta-buttons">
+      <a href="#" class="btn-primary">
+        Créer un compte gratuit
+      </a>
+
+      <a href="#" class="btn-secondary">
+        Contact Commercial
+      </a>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 PIBLAY — Tous droits réservés.
+  </footer>
+
+  <script src="contact.js"></script>
+
+</body>
+</html>

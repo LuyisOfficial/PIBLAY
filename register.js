@@ -1,99 +1,209 @@
-// MULTI STEP FORM
+// ========================================
+// PIBLAY REGISTER MULTI STEP FORM
+// ========================================
+
+// ELEMENTS
+const form = document.getElementById("registerForm");
+
 const steps = document.querySelectorAll(".form-step");
 
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 const submitBtn = document.getElementById("submitBtn");
 
+const password = document.getElementById("password");
+const strengthBar = document.getElementById("strengthBar");
+
+const togglePassword = document.getElementById("togglePassword");
+
+const websiteInput = document.getElementById("website");
+const urlMessage = document.getElementById("urlMessage");
+
+// CURRENT STEP
 let currentStep = 0;
+
+// ========================================
+// SHOW STEP
+// ========================================
 
 function showStep(index){
 
+  // HIDE ALL
   steps.forEach((step)=>{
     step.classList.remove("active");
   });
 
+  // SHOW CURRENT
   steps[index].classList.add("active");
 
-  prevBtn.style.display = index === 0 ? "none" : "block";
+  // PREV BUTTON
+  if(index === 0){
+    prevBtn.style.display = "none";
+  }else{
+    prevBtn.style.display = "block";
+  }
 
+  // LAST STEP
   if(index === steps.length - 1){
+
     nextBtn.style.display = "none";
     submitBtn.style.display = "block";
+
   }else{
+
     nextBtn.style.display = "block";
     submitBtn.style.display = "none";
+
   }
+
+  // SCROLL TOP
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
+// INIT
 showStep(currentStep);
+
+// ========================================
+// NEXT STEP
+// ========================================
 
 nextBtn.addEventListener("click", ()=>{
 
+  // VALIDATE CURRENT STEP
+  const currentInputs = steps[currentStep].querySelectorAll("input[required], select[required]");
+
+  let isValid = true;
+
+  currentInputs.forEach((input)=>{
+
+    if(input.value.trim() === ""){
+
+      input.style.border = "1px solid #ff4d4d";
+
+      isValid = false;
+
+    }else{
+
+      input.style.border = "1px solid transparent";
+
+    }
+
+  });
+
+  // STOP IF INVALID
+  if(!isValid){
+
+    alert("Veuillez remplir tous les champs obligatoires.");
+
+    return;
+  }
+
+  // NEXT
   if(currentStep < steps.length - 1){
+
     currentStep++;
+
     showStep(currentStep);
+
   }
 
 });
+
+// ========================================
+// PREVIOUS STEP
+// ========================================
 
 prevBtn.addEventListener("click", ()=>{
 
   if(currentStep > 0){
+
     currentStep--;
+
     showStep(currentStep);
+
   }
 
 });
 
-
+// ========================================
 // PASSWORD STRENGTH
-const password = document.getElementById("password");
-const strengthBar = document.getElementById("strengthBar");
+// ========================================
 
 password.addEventListener("input", ()=>{
 
   let value = password.value;
+
   let strength = 0;
 
-  if(value.length >= 8) strength += 25;
-  if(value.match(/[A-Z]/)) strength += 25;
-  if(value.match(/[0-9]/)) strength += 25;
-  if(value.match(/[^A-Za-z0-9]/)) strength += 25;
+  // LENGTH
+  if(value.length >= 8){
+    strength += 25;
+  }
 
+  // UPPERCASE
+  if(/[A-Z]/.test(value)){
+    strength += 25;
+  }
+
+  // NUMBER
+  if(/[0-9]/.test(value)){
+    strength += 25;
+  }
+
+  // SYMBOL
+  if(/[^A-Za-z0-9]/.test(value)){
+    strength += 25;
+  }
+
+  // WIDTH
   strengthBar.style.width = strength + "%";
 
+  // COLOR
   if(strength <= 25){
+
     strengthBar.style.background = "#ff4d4d";
+
   }else if(strength <= 50){
+
     strengthBar.style.background = "#ffaa00";
+
   }else if(strength <= 75){
+
     strengthBar.style.background = "#4da6ff";
+
   }else{
+
     strengthBar.style.background = "#32d583";
+
   }
 
 });
 
-
+// ========================================
 // SHOW / HIDE PASSWORD
-const togglePassword = document.getElementById("togglePassword");
+// ========================================
 
 togglePassword.addEventListener("click", ()=>{
 
   if(password.type === "password"){
+
     password.type = "text";
+
   }else{
+
     password.type = "password";
+
   }
 
 });
 
-
+// ========================================
 // URL VALIDATION
-const websiteInput = document.getElementById("website");
-const urlMessage = document.getElementById("urlMessage");
+// ========================================
 
 websiteInput.addEventListener("input", ()=>{
 
@@ -113,19 +223,50 @@ websiteInput.addEventListener("input", ()=>{
 
 });
 
+// ========================================
+// OTP BUTTON
+// ========================================
 
+const otpBtn = document.querySelector(".otp-btn");
+
+otpBtn.addEventListener("click", ()=>{
+
+  otpBtn.innerHTML = "Code envoyé ✓";
+
+  otpBtn.style.background = "#32d583";
+
+  setTimeout(()=>{
+
+    otpBtn.innerHTML = "Envoyer OTP";
+
+    otpBtn.style.background = "";
+
+  },3000);
+
+});
+
+// ========================================
 // FORM SUBMIT
-const form = document.getElementById("registerForm");
+// ========================================
 
 form.addEventListener("submit",(e)=>{
 
   e.preventDefault();
 
-  alert("Compte business créé avec succès.");
+  // BUTTON LOADING
+  submitBtn.innerHTML = "Création du compte...";
 
-  form.reset();
+  submitBtn.disabled = true;
 
-  currentStep = 0;
-  showStep(currentStep);
+  // SIMULATION
+  setTimeout(()=>{
+
+    // SUCCESS MESSAGE
+    alert("Compte PIBLAY créé avec succès !");
+
+    // REDIRECT TO DASHBOARD
+    window.location.href = "./client-dashboard";
+
+  },2500);
 
 });

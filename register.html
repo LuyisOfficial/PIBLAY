@@ -1,202 +1,348 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inscription - PIBLAY</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="./register.css">
-<link rel="icon" href="./favicon.ico">
+  <title>Inscription Business | PIBLAY</title>
 
+  <link rel="stylesheet" href="register.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<div class="container">
+  <!-- BACKGROUND -->
+  <div class="bg-gradient"></div>
 
-<h1>CRÉE VOTRE COMPTE PIBLAY !</h1>
+  <!-- HEADER -->
+  <header class="header">
 
-<select id="accountType">
-    <option value="client">PROPRIETAIRE D'ACTIVITÉZ</option>
-</select>
+    <div class="logo">
+      <span>PIB</span>LAY
+    </div>
 
-<!-- CLIENT -->
-<form id="clientForm">
+    <div class="header-right">
+      <div class="security-badge">
+        🔒 Connexion sécurisée SSL
+      </div>
 
-<h3>PROFILES :</h3>
+      <div class="security-badge">
+        ✅ Conformité RGPD
+      </div>
+    </div>
 
-<input type="file" id="clientAvatar" accept="image/*">
-    
-<input type="text" id="clientName" placeholder="Nom complet" required>
-<input type="email" id="clientEmail" placeholder="Email" required>
-<input type="password" id="clientPassword" placeholder="Mot de passe" required>
+  </header>
 
-<h3>ENTREPRISE :</h3>
+  <!-- REGISTER SECTION -->
+  <section class="register-section">
 
-<input type="text" id="businessName" placeholder="Nom entreprise" required>
+    <!-- LEFT -->
+    <div class="left-side">
 
-<select id="businessType">
-    <option value="ecommerce">E-commerce</option>
-    <option value="service">Service</option>
-    <option value="restaurant">Restaurant</option>
-</select>
+      <span class="tag">
+        Plateforme Publicitaire Intelligente
+      </span>
 
-<input type="url" id="website" placeholder="Site web">
-<textarea id="goal" placeholder="Objectif marketing..." required></textarea>
+      <h1>
+        Rejoignez <span>PIBLAY</span>
+        et diffusez vos annonces
+        en moins de 5 minutes.
+      </h1>
 
-<button class="btn-submit" type="submit">CRÉE COMPTE CLIENT</button>
-<p> Je degâ un compte " <a href="./login"> Se Connecter </a> " !</p>
-</form>
+      <p>
+        Créez votre compte business sécurisé et accédez à une plateforme
+        publicitaire moderne conçue pour les annonceurs professionnels.
+      </p>
 
-</div>
+      <div class="feature-list">
 
-<script>
-// ================= CONFIG =================
-const API_URL = "http://localhost:3000/api";
+        <div class="feature">
+          ✅ Vérification Business
+        </div>
 
-// ================= UI =================
-const typeSelect = document.getElementById("accountType");
-const clientForm = document.getElementById("clientForm");
-const agencyForm = document.getElementById("agencyForm");
-const statusMsg = document.getElementById("statusMsg");
+        <div class="feature">
+          🔐 Protection avancée des données
+        </div>
 
-// SWITCH FORM
-typeSelect.addEventListener("change", () => {
-    const isClient = typeSelect.value === "client";
-    clientForm.style.display = isClient ? "block" : "none";
-    agencyForm.style.display = isClient ? "none" : "block";
-});
+        <div class="feature">
+          📊 Dashboard publicitaire intelligent
+        </div>
 
-// ================= HELPERS =================
+        <div class="feature">
+          🚀 Lancement rapide des campagnes
+        </div>
 
-// VALIDATION EMAIL
-function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+      </div>
 
-// VALIDATION PASSWORD (SaaS sécurisé)
-function validatePassword(password) {
-    return password.length >= 8;
-}
+    </div>
 
-// FILE UPLOAD (SÉCURISÉ)
-function getFile(file) {
-    if (!file) return null;
-    if (file.size > 2 * 1024 * 1024) {
-        throw new Error("Image trop lourde (max 2MB)");
-    }
-    return file;
-}
+    <!-- RIGHT -->
+    <div class="right-side">
 
-// ================= API CALL =================
-async function registerUser(data) {
-    const response = await fetch(`${API_URL}/auth/register`, {
-        method: "POST",
-        credentials: "include", // cookies sécurisé
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+      <form class="register-form" id="registerForm">
 
-    const result = await response.json();
+        <!-- STEP 1 -->
+        <div class="form-step active">
 
-    if (!response.ok) {
-        throw new Error(result.message || "Erreur serveur");
-    }
+          <div class="step-header">
+            <span>ÉTAPE 1</span>
+            <h2>Informations Entreprise</h2>
+          </div>
 
-    return result;
-}
+          <div class="input-group">
+            <label>Nom de l'entreprise</label>
+            <input type="text" placeholder="Nom légal enregistré" required>
+          </div>
 
-// ================= CLIENT REGISTER =================
-clientForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+          <div class="grid-2">
 
-    try {
-        statusMsg.innerText = "Création...";
-        statusMsg.style.color = "orange";
+            <div class="input-group">
+              <label>SIRET / TVA</label>
+              <input type="text" placeholder="FR123456789">
+            </div>
 
-        // VALIDATION
-        if (!validateEmail(clientEmail.value)) {
-            throw new Error("Email invalide");
-        }
+            <div class="input-group">
+              <label>Secteur d'activité</label>
 
-        if (!validatePassword(clientPassword.value)) {
-            throw new Error("Mot de passe trop court (8 caractères minimum)");
-        }
+              <select required>
+                <option value="">Choisir</option>
+                <option>E-commerce</option>
+                <option>Technologie</option>
+                <option>Immobilier</option>
+                <option>Services</option>
+                <option>Finance</option>
+                <option>Marketing</option>
+              </select>
+            </div>
 
-        const userData = {
-            fullname: clientName.value.trim(),
-            email: clientEmail.value.trim(),
-            password: clientPassword.value,
-            role: "client",
-            business: {
-                name: businessName.value,
-                type: businessType.value,
-                website: website.value,
-                goal: goal.value
-            }
-        };
+          </div>
 
-        await registerUser(userData);
+          <div class="input-group">
+            <label>Site Web Officiel</label>
+            <input type="url" id="website" placeholder="https://votresite.com">
+            <small id="urlMessage"></small>
+          </div>
 
-        statusMsg.style.color = "green";
-        statusMsg.innerText = "Compte créé ✔";
+          <div class="grid-2">
 
-        setTimeout(() => {
-            window.location.href = "client-dashboard.html";
-        }, 1200);
+            <div class="input-group">
+              <label>Ville</label>
+              <input type="text" placeholder="Paris">
+            </div>
 
-    } catch (err) {
-        statusMsg.style.color = "red";
-        statusMsg.innerText = err.message;
-    }
-});
+            <div class="input-group">
+              <label>Pays</label>
+              <input type="text" placeholder="France">
+            </div>
 
-// ================= AGENCY REGISTER =================
-agencyForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+          </div>
 
-    try {
-        statusMsg.innerText = "Création...";
-        statusMsg.style.color = "orange";
+          <div class="input-group">
+            <label>Adresse du siège social</label>
+            <input type="text" placeholder="Adresse complète">
+          </div>
 
-        if (!validateEmail(agencyEmail.value)) {
-            throw new Error("Email invalide");
-        }
+        </div>
 
-        if (!validatePassword(agencyPassword.value)) {
-            throw new Error("Mot de passe trop court");
-        }
+        <!-- STEP 2 -->
+        <div class="form-step">
 
-        const userData = {
-            fullname: agencyName.value.trim(),
-            email: agencyEmail.value.trim(),
-            password: agencyPassword.value,
-            role: "agency",
-            agency: {
-                phone: agencyPhone.value,
-                specialization: specialization.value,
-                description: agencyDescription.value
-            }
-        };
+          <div class="step-header">
+            <span>ÉTAPE 2</span>
+            <h2>Responsable du Compte</h2>
+          </div>
 
-        await registerUser(userData);
+          <div class="grid-2">
 
-        statusMsg.style.color = "green";
-        statusMsg.innerText = "Compte agence créé ✔";
+            <div class="input-group">
+              <label>Nom</label>
+              <input type="text" required>
+            </div>
 
-        setTimeout(() => {
-            window.location.href = "agency-dashboard.html";
-        }, 1200);
+            <div class="input-group">
+              <label>Prénom</label>
+              <input type="text" required>
+            </div>
 
-    } catch (err) {
-        statusMsg.style.color = "red";
-        statusMsg.innerText = err.message;
-    }
-});
-    
-</script>
-<script src="./enregister.js"></script>
+          </div>
+
+          <div class="input-group">
+            <label>Email Professionnel</label>
+
+            <div class="otp-box">
+              <input type="email" placeholder="contact@entreprise.com" required>
+
+              <button type="button" class="otp-btn">
+                Envoyer OTP
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+
+            <div class="input-group">
+              <label>Téléphone</label>
+              <input type="tel" placeholder="+33 6 00 00 00 00">
+            </div>
+
+            <div class="input-group">
+              <label>Fonction</label>
+
+              <select>
+                <option>Propriétaire</option>
+                <option>Directeur Marketing</option>
+                <option>Gestionnaire de compte</option>
+              </select>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="form-step">
+
+          <div class="step-header">
+            <span>ÉTAPE 3</span>
+            <h2>Sécurisation du Compte</h2>
+          </div>
+
+          <div class="input-group">
+            <label>Mot de passe</label>
+
+            <div class="password-box">
+              <input type="password" id="password" placeholder="********">
+              <button type="button" id="togglePassword">
+                👁️
+              </button>
+            </div>
+
+            <div class="password-strength">
+              <div class="strength-bar" id="strengthBar"></div>
+            </div>
+
+            <small>
+              Minimum 12 caractères avec chiffres et symboles.
+            </small>
+          </div>
+
+          <div class="input-group">
+            <label>Question de sécurité</label>
+
+            <select>
+              <option>Nom de votre premier animal ?</option>
+              <option>Ville de naissance ?</option>
+              <option>Nom de votre école ?</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Réponse secrète</label>
+            <input type="text">
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="twofa">
+
+            <label for="twofa">
+              Activer l'authentification 2FA dès la première connexion.
+            </label>
+          </div>
+
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="form-step">
+
+          <div class="step-header">
+            <span>ÉTAPE 4</span>
+            <h2>Préférences de Service</h2>
+          </div>
+
+          <div class="grid-2">
+
+            <div class="input-group">
+              <label>Objectif principal</label>
+
+              <select>
+                <option>Notoriété</option>
+                <option>Ventes</option>
+                <option>Génération de leads</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label>Budget mensuel</label>
+
+              <select>
+                <option>500€ - 1 000€</option>
+                <option>1 000€ - 5 000€</option>
+                <option>5 000€ - 10 000€</option>
+                <option>10 000€+</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="input-group">
+            <label>Devise préférée</label>
+
+            <select>
+              <option>EUR (€)</option>
+              <option>USD ($)</option>
+              <option>DOP (RD$)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Document KYC (Optionnel)</label>
+            <input type="file">
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" required>
+
+            <label>
+              J'accepte les Conditions Générales et la Politique de Confidentialité.
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" required>
+
+            <label>
+              Je certifie que les informations fournies sont exactes.
+            </label>
+          </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="buttons">
+
+          <button type="button" id="prevBtn" class="secondary-btn">
+            Retour
+          </button>
+
+          <button type="button" id="nextBtn" class="primary-btn">
+            Continuer
+          </button>
+
+          <button type="submit" id="submitBtn" class="primary-btn">
+            CRÉER MON COMPTE SÉCURISÉ
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </section>
+
+  <script src="register.js"></script>
+
 </body>
-</html>
+          </html>

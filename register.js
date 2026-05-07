@@ -1,99 +1,131 @@
-document.addEventListener('DOMContentLoaded', () => {
+// MULTI STEP FORM
+const steps = document.querySelectorAll(".form-step");
 
-    const msgBox = document.getElementById('status-msg');
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+const submitBtn = document.getElementById("submitBtn");
 
-    // ================= SESSION CHECK =================
-    const currentUser = JSON.parse(localStorage.getItem('piblay_user'));
+let currentStep = 0;
 
-    if (currentUser && currentUser.role === 'agency') {
-        window.location.href = "proagence.html"; // ✅ FIX
-        return;
-    }
+function showStep(index){
 
-    // ================= SWITCH FORM =================
-    window.showForm = function(type) {
+  steps.forEach((step)=>{
+    step.classList.remove("active");
+  });
 
-        msgBox.style.display = 'none';
+  steps[index].classList.add("active");
 
-        document.querySelectorAll('form').forEach(f => {
-            f.classList.remove('active');
-        });
+  prevBtn.style.display = index === 0 ? "none" : "block";
 
-        if(type === 'login'){
-            document.getElementById('loginForm').classList.add('active');
-        }
-        else if(type === 'signup'){
-            document.getElementById('signupForm').classList.add('active');
-        }
-        else{
-            document.getElementById('forgotForm').classList.add('active');
-        }
-    }
+  if(index === steps.length - 1){
+    nextBtn.style.display = "none";
+    submitBtn.style.display = "block";
+  }else{
+    nextBtn.style.display = "block";
+    submitBtn.style.display = "none";
+  }
 
-    // ================= LOGIN =================
-    const loginForm = document.getElementById('loginForm');
+}
 
-    if(loginForm){
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+showStep(currentStep);
 
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-            const pass = document.getElementById('loginPass').value;
+nextBtn.addEventListener("click", ()=>{
 
-            const users = JSON.parse(localStorage.getItem('all_piblay_users')) || [];
+  if(currentStep < steps.length - 1){
+    currentStep++;
+    showStep(currentStep);
+  }
 
-            const user = users.find(u => u.email === email && u.password === pass);
+});
 
-            if(!user){
-                msgBox.innerText = "Identifiants incorrects";
-                msgBox.style.display = "block";
-                return;
-            }
+prevBtn.addEventListener("click", ()=>{
 
-            if(user.role !== "agency"){
-                msgBox.innerText = "Accès réservé aux agences";
-                msgBox.style.display = "block";
-                return;
-            }
+  if(currentStep > 0){
+    currentStep--;
+    showStep(currentStep);
+  }
 
-            localStorage.setItem('piblay_user', JSON.stringify(user));
+});
 
-            window.location.href = "proagence.html"; // ✅ FIX
-        });
-    }
 
-    // ================= SIGNUP =================
-    const signupForm = document.getElementById('signupForm');
+// PASSWORD STRENGTH
+const password = document.getElementById("password");
+const strengthBar = document.getElementById("strengthBar");
 
-    if(signupForm){
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+password.addEventListener("input", ()=>{
 
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  let value = password.value;
+  let strength = 0;
 
-            let users = JSON.parse(localStorage.getItem('all_piblay_users')) || [];
+  if(value.length >= 8) strength += 25;
+  if(value.match(/[A-Z]/)) strength += 25;
+  if(value.match(/[0-9]/)) strength += 25;
+  if(value.match(/[^A-Za-z0-9]/)) strength += 25;
 
-            if(users.find(u => u.email === email)){
-                msgBox.innerText = "Email déjà utilisé";
-                msgBox.style.display = "block";
-                return;
-            }
+  strengthBar.style.width = strength + "%";
 
-            const newUser = {
-                fullname: document.getElementById('regName').value,
-                email: email,
-                password: document.getElementById('regPass').value,
-                role: "agency",
-                createdAt: new Date().toISOString()
-            };
+  if(strength <= 25){
+    strengthBar.style.background = "#ff4d4d";
+  }else if(strength <= 50){
+    strengthBar.style.background = "#ffaa00";
+  }else if(strength <= 75){
+    strengthBar.style.background = "#4da6ff";
+  }else{
+    strengthBar.style.background = "#32d583";
+  }
 
-            users.push(newUser);
-            localStorage.setItem('all_piblay_users', JSON.stringify(users));
-            localStorage.setItem('piblay_user', JSON.stringify(newUser));
+});
 
-            alert("Compte créé !");
-            window.location.href = "proagence.html"; // ✅ FIX
-        });
-    }
+
+// SHOW / HIDE PASSWORD
+const togglePassword = document.getElementById("togglePassword");
+
+togglePassword.addEventListener("click", ()=>{
+
+  if(password.type === "password"){
+    password.type = "text";
+  }else{
+    password.type = "password";
+  }
+
+});
+
+
+// URL VALIDATION
+const websiteInput = document.getElementById("website");
+const urlMessage = document.getElementById("urlMessage");
+
+websiteInput.addEventListener("input", ()=>{
+
+  const pattern = /^(https?:\/\/)?([\w\-])+\.{1}[a-zA-Z]{2,}(\/.*)?$/;
+
+  if(pattern.test(websiteInput.value)){
+
+    urlMessage.textContent = "URL valide";
+    urlMessage.className = "success";
+
+  }else{
+
+    urlMessage.textContent = "Format URL invalide";
+    urlMessage.className = "error";
+
+  }
+
+});
+
+
+// FORM SUBMIT
+const form = document.getElementById("registerForm");
+
+form.addEventListener("submit",(e)=>{
+
+  e.preventDefault();
+
+  alert("Compte business créé avec succès.");
+
+  form.reset();
+
+  currentStep = 0;
+  showStep(currentStep);
 
 });
